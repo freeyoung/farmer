@@ -11,3 +11,8 @@ hello ansible
 <input type = 'submit' value = 'submit' />
 </form>
 
+<table>
+{% for job in jobs %}
+<tr><td>{{ job }}</td></tr>
+{% endfor %}
+</table>

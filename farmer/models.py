@@ -26,8 +26,7 @@ class Job(models.Model):
     # failed hosts
     inventories_failure = models.TextField(null = True, blank = True)
 
-    stdout = models.TextField(null = True, blank = True)
-    stderr = models.TextField(null = True, blank = True)
+    result = models.TextField(null = True)
 
     date_created = models.DateTimeField()
     date_done = models.DateTimeField()
@@ -38,7 +37,7 @@ class Job(models.Model):
         return 'ansible %s %s "%s"' % (self.inventories, option, self.cmd)
 
     def run(self):
-        if 0 == 0:
+        if os.fork() == 0:
             tmpdir = '/tmp/ansible_%s' % time.time()
             os.mkdir(tmpdir)
             cmd_shell = self.cmd_shell + ' -t ' + tmpdir
@@ -48,20 +47,17 @@ class Job(models.Model):
             self.date_done = datetime.now()
 
             inventories_failure = []
-            stdout = {}
-            stderr = {}
+            result = {}
 
             for f in os.listdir(tmpdir):
-                var = json.loads(open(tmpdir + '/' + f).read())
-                if var.get('rc') != 0:
+                r = json.loads(open(tmpdir + '/' + f).read())
+                if r.get('rc') != 0:
                     inventories_failure.append(f)
-                stdout[f] = var['stdout']
-                stderr[f] = var['stderr']
+                result[f] = r
                 
             self.rc = status
             self.inventories_failure = ':'.join(inventories_failure)
-            self.stdout = json.dumps(stdout)
-            self.stderr = json.dumps(stderr)
+            self.result = result
             self.save()
         
 
