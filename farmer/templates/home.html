@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<form id = 'job' action = '/' method = 'POST'>
-<input type = 'textbox' name = 'inventories' id = 'inventories' />
-<br />
-<br />
-<input type = 'textbox' name = 'cmd' id = 'cmd' />
-<br />
-<br />
-<input type = 'submit' value = 'submit' />
-</form>
-
-<table>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Shell Command</th>
+      <th>Job Date Created</th>
+      <th>Job Date Done</th>
+      <th>Return Code</th>
+    </tr>
+  </thead>
+  <tbody>
 {% for job in jobs %}
-<tr><td>{{ job }}</td></tr>
+    <tr>
+      <td>{{ job.id }}</td>
+      <td>{{ job.cmd_shell }}</td>
+      <td>{{ job.date_created }}</td>
+      <td>{{ job.date_done }}</td>
+      <td>{{ job.rc }}</td>
+    </tr>
 {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

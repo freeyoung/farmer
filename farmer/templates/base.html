@@ -33,11 +33,15 @@
               <a href="../css">CSS</a>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="../about">About</a>
-            </li>
-          </ul>
+          <form action = '/' method = 'POST' class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" name = 'inventories' class="form-control" placeholder="inventories">
+            </div>
+            <div class="form-group">
+              <input type="text" name = 'cmd' class="form-control" placeholder="cmd">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
         </nav>
       </div>
     </header>
