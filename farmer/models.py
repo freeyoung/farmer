@@ -14,7 +14,7 @@ class Job(models.Model):
     inventories = models.TextField(null = False, blank = False)
 
     # 0, do not use sudo; 1, use sudo .
-    sudo = models.BooleanField(default = False) 
+    sudo = models.BooleanField(default = True) 
 
     # for example: ansible web_servers -m shell -a 'du -sh /tmp'
     # the 'du -sh /tmp' is cmd here
