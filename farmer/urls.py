@@ -15,5 +15,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'farmer.views.home', name='home'),
+    url(r'^$', 'farmer.views.home', name = 'home'),
+    url(r'^detail/(?P<id>\d+)/?$', 'farmer.views.detail', name = 'detail'),
+    url(r'^retry/(?P<id>\d+)/?$', 'farmer.views.retry', name = 'retry'),
 )

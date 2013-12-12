@@ -20,9 +20,9 @@
       <td>{{ job.end }}</td>
       <td>{{ job.rc }}</td>
       <td>
-        <a href = '/detail?id={{ job.id }}'>detail</a>
+        <a href = '/detail/{{ job.id }}'>detail</a>
         {% if job.rc %}
-        <a href = '/retry?id={{ job.id }}'>retry</a>
+        <a href = '/retry/{{ job.id }}'>retry</a>
         {% endif %}
       </td>
     </tr>

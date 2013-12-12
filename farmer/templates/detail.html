@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{% if failures %}
+<h1>Failures</h1>
+<ol>
+{% for k, v in failures.items %}
+<li>{{ k }} : {{ v }}</li>
+{% endfor %}
+</ol>
+{% endif %}
+
+{% if success %}
+<h1>Success</h1>
+<ol>
+{% for k, v in success.items %}
+<li>{{ k }} : {{ v }}</li>
+{% endfor %}
+</ol>
+{% endif %}
+{% endblock %}
