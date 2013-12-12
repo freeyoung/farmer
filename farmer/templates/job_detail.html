@@ -8,7 +8,7 @@
       <th>Start</th>
       <th>End</th>
       <th>Return Code</th>
-      <th>More &#187;</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -19,12 +19,7 @@
       <td>{{ job.start }}</td>
       <td>{{ job.end }}</td>
       <td>{{ job.rc }}</td>
-      <td>
-        <a href = '/detail?id={{ job.id }}'>detail</a>
-        {% if job.rc %}
-        <a href = '/retry?id={{ job.id }}'>retry</a>
-        {% endif %}
-      </td>
+      <td>retry</td>
     </tr>
 {% endfor %}
   </tbody>

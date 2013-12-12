@@ -73,8 +73,26 @@ main {
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-  border-top: 1px solid #888;
+  border-top: 1px solid #AAA;
 }
+
+.table > tbody > tr > td > a {
+  font-weight: bold;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  text-decoration: none;
+}
+
+.table > tbody > tr > td > a:hover {
+  background-color: white;
+  color: rgb(86, 61, 124);
+  text-decoration: none;
+}
+
 
 /*
  * background-image for body

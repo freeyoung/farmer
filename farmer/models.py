@@ -21,45 +21,34 @@ class Job(models.Model):
     cmd = models.TextField(null = False, blank = False)
 
     # return code of this job
-    rc = models.IntegerField(null = False) 
-
-    # failed hosts
-    inventories_failure = models.TextField(null = True, blank = True)
+    rc = models.IntegerField(null = True) 
 
     result = models.TextField(null = True)
 
-    date_created = models.DateTimeField()
-    date_done = models.DateTimeField()
+    start = models.DateTimeField(null = True)
+    end = models.DateTimeField(null = True)
 
     @property
     def cmd_shell(self):
-        option = self.sudo == '0' and '--sudo -m shell -a' or '-m shell -a'
+        option = self.sudo and '--sudo -m shell -a' or '-m shell -a'
         return 'ansible %s %s "%s"' % (self.inventories, option, self.cmd)
 
     def run(self):
         if os.fork() == 0:
             tmpdir = '/tmp/ansible_%s' % time.time()
             os.mkdir(tmpdir)
-            cmd_shell = self.cmd_shell + ' -t ' + tmpdir
-            self.date_created = datetime.now()
-            status, output = getstatusoutput(cmd_shell)
-            print output
-            self.date_done = datetime.now()
-
-            inventories_failure = []
-            result = {}
-
-            for f in os.listdir(tmpdir):
-                r = json.loads(open(tmpdir + '/' + f).read())
-                if r.get('rc') != 0:
-                    inventories_failure.append(f)
-                result[f] = r
-                
-            self.rc = status
-            self.inventories_failure = ':'.join(inventories_failure)
-            self.result = result
+            self.start = datetime.now()
             self.save()
-        
+            cmd_shell = self.cmd_shell + ' -t ' + tmpdir
+            status, output = getstatusoutput(cmd_shell)
+            self.end = datetime.now()
+            result = {}
+            for f in os.listdir(tmpdir):
+                result[f] = json.loads(open(tmpdir + '/' + f).read())
+            self.rc = status
+            self.result = json.dumps(result)
+            self.save()
+            os.system('rm -rf ' + tmpdir)
 
     def __unicode__(self):
         return self.cmd_shell
