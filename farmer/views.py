@@ -2,9 +2,11 @@
 import json
 
 from django.shortcuts import render_to_response, redirect
+from django.contrib.admin.views.decorators import staff_member_required
 
 from farmer.models import Job
 
+@staff_member_required
 def home(request):
     if request.method == 'POST':
         inventories = request.POST.get('inventories', '')
@@ -20,6 +22,7 @@ def home(request):
         jobs = Job.objects.all().order_by('-id')
         return render_to_response('home.html', locals())
 
+@staff_member_required
 def detail(request, id):
     assert(request.method == 'GET')
     job = Job.objects.get(id = id)
@@ -33,6 +36,7 @@ def detail(request, id):
             success[k] = v
     return render_to_response('detail.html', locals())
 
+@staff_member_required
 def retry(request, id):
     assert(request.method == 'GET')
     job = Job.objects.get(id = id)
@@ -48,5 +52,5 @@ def retry(request, id):
     newjob.cmd = job.cmd
     newjob.run()
     return redirect('/')
-    
+
 
